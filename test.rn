@@ -1,0 +1,7 @@
+/* This is my favorite rain program */
+
+void main() {
+    int eee = 12;
+    int aaa = eee - 1;
+    aaa ~= aaa;
+}
