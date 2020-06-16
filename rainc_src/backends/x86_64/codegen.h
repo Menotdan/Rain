@@ -78,6 +78,7 @@
     "\trep pop r8\n" /* Clear the parameters */
 
 #define FUNC_BEGIN \
+    "\tpush rbp\n" \
     "\tmov rbp, rsp\n"
 
 #define SET_RETURN_VAL \
@@ -85,6 +86,7 @@
 
 #define FUNC_RETURN \
     "\tmov rsp, rbp\n" \
+    "\tpop rbp\n" \
     "\tret\n"
 
 #define PEEK_8 \
@@ -134,6 +136,19 @@
     "\tmov qword [rbx], rax\n" \
     "\tpush rax\n"
 
+/* For IF and WHILE, the condition results will be stored in rdi */
+#define IF \
+    "\ttest rdi, rdi\n" \
+    "\tjz .__dl%lu\n"
+
+#define WHILE \
+    "\ttest rdi, rdi\n" \
+    "\tjnz .__dl%lu\n"
+
+#define BREAK_LOOP \
+    "\tjmp .__dl%lu\n"
+
+/* Temporary register for shifting things around on the stack */
 #define PUSH_FROM_TEMP \
     "\tpush r9\n"
 
@@ -145,5 +160,8 @@
 
 #define STRING_LITERAL_END \
     "\", 0"
+
+#define DISPOSABLE_LABEL \
+    ".__dl%lu:\n"
 
 #endif
